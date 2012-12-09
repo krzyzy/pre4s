@@ -1,0 +1,47 @@
+package org.krzyzak.pre4s;
+
+import junit.framework.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.krzyzak.pre4s.controller.Pre4STestController;
+import org.krzyzak.pre4s.test.Pre4STestConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.web.server.MockMvc;
+import org.springframework.test.web.server.MvcResult;
+import org.springframework.test.web.server.RequestBuilder;
+import org.springframework.test.web.server.ResultActions;
+import org.springframework.test.web.server.request.MockMvcRequestBuilders;
+import org.springframework.test.web.server.setup.MockMvcBuilders;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: tomasz
+ * Date: 09.12.12
+ * Time: 20:00
+ * To change this template use File | Settings | File Templates.
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {Pre4STestConfig.class}, loader = AnnotationConfigContextLoader.class)
+public class Pre4SControllerIntegerationTest {
+
+    @Autowired
+    private Pre4STestController pre4STestController;
+
+    protected MockMvc mockMvc;
+
+    @Before
+    public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.standaloneSetup(pre4STestController).build();
+    }
+
+    @Test
+    public void test() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test")).andReturn();
+        Assert.assertEquals(200, result.getResponse().getStatus());
+    }
+}
