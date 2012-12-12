@@ -1,5 +1,6 @@
 package org.krzyzak.pre4s.controller;
 
+import org.krzyzak.pre4s.test.FooEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,10 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 public class Pre4STestController {
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "test")
+    @RequestMapping(method = RequestMethod.GET, value = "test", headers="Accept=application/xml, application/json")
     @ResponseBody
-    public String saveDebugOutput() {
-        return "dupa";
+    public FooEntity saveDebugOutput() {
+        return new FooEntity("dupa");
     }
 
 }

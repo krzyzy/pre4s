@@ -8,6 +8,7 @@ import org.krzyzak.pre4s.controller.Pre4STestController;
 import org.krzyzak.pre4s.test.Pre4STestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -41,7 +42,8 @@ public class Pre4SControllerIntegerationTest {
 
     @Test
     public void test() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test")).andReturn();
-        Assert.assertEquals(200, result.getResponse().getStatus());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test").header("Accept", "application/json")).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        Assert.assertEquals(200, response.getStatus());
     }
 }
