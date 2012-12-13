@@ -18,6 +18,10 @@ import org.springframework.test.web.server.RequestBuilder;
 import org.springframework.test.web.server.ResultActions;
 import org.springframework.test.web.server.request.MockMvcRequestBuilders;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
+import org.springframework.test.web.server.setup.StandaloneMockMvcBuilder;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,16 +37,22 @@ public class Pre4SControllerIntegerationTest {
     @Autowired
     private Pre4STestController pre4STestController;
 
+    @Autowired
+    private Pre4SHandlerExceptionResolver pre4SHandlerExceptionResolver;
+
     protected MockMvc mockMvc;
 
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(pre4STestController).build();
+        StandaloneMockMvcBuilder standaloneMockMvcBuilder = MockMvcBuilders.standaloneSetup(pre4STestController);
+        standaloneMockMvcBuilder.setHandlerExceptionResolvers(Arrays.<HandlerExceptionResolver>asList(pre4SHandlerExceptionResolver));
+        mockMvc = standaloneMockMvcBuilder.build();
+
     }
 
     @Test
     public void test() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test").header("Accept", "application/json")).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test?fail=true").header("Accept", "application/json")).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(200, response.getStatus());
     }

@@ -1,12 +1,11 @@
 package org.krzyzak.pre4s.controller;
 
+import org.krzyzak.pre4s.test.ApplicationException;
 import org.krzyzak.pre4s.test.FooEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +25,15 @@ public class Pre4STestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "test", headers="Accept=application/xml, application/json")
     @ResponseBody
-    public FooEntity saveDebugOutput() {
+    public FooEntity saveDebugOutput(@RequestParam(value="fail") Boolean throwException) throws ApplicationException {
+        if (throwException)
+            throw new ApplicationException("requested fail");
         return new FooEntity("dupa");
+    }
+
+    @ExceptionHandler({ApplicationException.class})
+    public ModelAndView handle(ApplicationException ae) {
+        return null;
     }
 
 }
