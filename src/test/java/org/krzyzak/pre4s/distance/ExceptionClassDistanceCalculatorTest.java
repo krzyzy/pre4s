@@ -4,7 +4,7 @@ import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.krzyzak.pre4s.tools.KrzyzakAssertions;
+import org.krzyzak.pre4s.tools.Pre4S;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,17 +32,17 @@ public class ExceptionClassDistanceCalculatorTest {
 
     @Test
     public void itShouldReturnBiggerThenSameWhenFirstExceptionIsSuperClassOfSecondOne(){
-        KrzyzakAssertions.assertThat(distanceCalculator.calculate(Exception.class, RuntimeException.class)).isGreaterThanOrEqualTo(ExceptionClassDistance.SAME);
+        Pre4S.assertThat(distanceCalculator.calculate(Exception.class, RuntimeException.class)).isGreaterThanOrEqualTo(ExceptionClassDistance.SAME);
     }
 
     @Test
     public void itShouldReturn0WhenCompareDistanceBetweenExcetpionAndISEAndNPE(){
-        KrzyzakAssertions.assertThat(distanceCalculator.calculate(Exception.class, IllegalStateException.class)).isEqualByComparingTo(distanceCalculator.calculate(Exception.class, NullPointerException.class));
+        Pre4S.assertThat(distanceCalculator.calculate(Exception.class, IllegalStateException.class)).isEqualByComparingTo(distanceCalculator.calculate(Exception.class, NullPointerException.class));
     }
 
     @Test
     public void itShouldBeLtZeroWHenCOmpareE_REWith_E_ISE(){
-        KrzyzakAssertions.assertThat(distanceCalculator.calculate(Exception.class, RuntimeException.class)).isLessThan(distanceCalculator.calculate(Exception.class, IllegalStateException.class));
+        Pre4S.assertThat(distanceCalculator.calculate(Exception.class, RuntimeException.class)).isLessThan(distanceCalculator.calculate(Exception.class, IllegalStateException.class));
     }
 
 }
