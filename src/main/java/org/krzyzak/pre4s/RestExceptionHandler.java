@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * Time: 18:07
  * To change this template use File | Settings | File Templates.
  */
-public interface RestExceptionHandler<T extends Exception> {
+public interface RestExceptionHandler<T extends Throwable> {
 
     ResponseEntity<?> handle(T e);
 
