@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Created with IntelliJ IDEA.
  * User: tomasz
@@ -28,7 +25,7 @@ public class Pre4STestController {
     public FooEntity saveDebugOutput(@RequestParam(value="fail") Boolean throwException) throws ApplicationException {
         if (throwException)
             throw new ApplicationException("requested fail");
-        return new FooEntity("dupa");
+        return new FooEntity("test");
     }
 
     @ExceptionHandler({ApplicationException.class})
