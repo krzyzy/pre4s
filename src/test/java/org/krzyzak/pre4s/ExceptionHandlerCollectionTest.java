@@ -4,9 +4,12 @@ import com.google.common.base.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.krzyzak.pre4s.handlers.CheckedExceptionHandler;
+import org.krzyzak.pre4s.handlers.IAEExceptionHandler;
+import org.krzyzak.pre4s.handlers.ISEExceptionHandler;
+import org.krzyzak.pre4s.handlers.RuntimeExceptionHandler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,38 +27,6 @@ import static org.mockito.Mockito.verify;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ExceptionHandlerCollectionTest {
-
-    public static class CheckedExceptionHandler implements RestExceptionHandler<Exception> {
-
-        @Override
-        public ResponseEntity<?> handle(Exception e) {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
-
-    public static class RuntimeExceptionHandler implements RestExceptionHandler<RuntimeException> {
-
-        @Override
-        public ResponseEntity<?> handle(RuntimeException e) {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
-
-    public static class ISEExceptionHandler implements RestExceptionHandler<IllegalStateException> {
-
-        @Override
-        public ResponseEntity<?> handle(IllegalStateException e) {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
-
-    public static class IAEExceptionHandler implements RestExceptionHandler<IllegalArgumentException> {
-
-        @Override
-        public ResponseEntity<?> handle(IllegalArgumentException e) {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-    }
 
 
     @Mock
