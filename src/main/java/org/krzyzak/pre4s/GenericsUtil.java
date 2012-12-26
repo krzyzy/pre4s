@@ -1,5 +1,7 @@
 package org.krzyzak.pre4s;
 
+import org.krzyzak.pre4s.tools.TypeHelper;
+
 /**
  * Created with IntelliJ IDEA.
  * User: tk
@@ -10,7 +12,7 @@ package org.krzyzak.pre4s;
 public class GenericsUtil {
 
     public Class<? extends Throwable> getActualTypeParamters(RestExceptionHandler<?> restExceptionHandler) {
-       return null;
+        return (Class<? extends Throwable>) TypeHelper.extractType((Class<? extends RestExceptionHandler<?>>) restExceptionHandler.getClass());
     }
 
 }

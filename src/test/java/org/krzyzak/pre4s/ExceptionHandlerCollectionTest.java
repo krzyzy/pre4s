@@ -9,6 +9,7 @@ import org.krzyzak.pre4s.handlers.IAEExceptionHandler;
 import org.krzyzak.pre4s.handlers.ISEExceptionHandler;
 import org.krzyzak.pre4s.handlers.RuntimeExceptionHandler;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
@@ -29,8 +30,8 @@ import static org.mockito.Mockito.verify;
 public class ExceptionHandlerCollectionTest {
 
 
-    @Mock
-    GenericsUtil genericsUtil;
+    @Spy
+    GenericsUtil genericsUtil = new GenericsUtil();
 
     ExceptionHandlerCollection ehc;
 
@@ -41,23 +42,15 @@ public class ExceptionHandlerCollectionTest {
 
     @Before
     public void before() {
-        doReturn(RuntimeException.class).when(genericsUtil).getActualTypeParamters(runtimeExceptionHandler);
-        doReturn(Exception.class).when(genericsUtil).getActualTypeParamters(checkedExceptionHandler);
-        doReturn(IllegalStateException.class).when(genericsUtil).getActualTypeParamters(iseExceptionHandler);
-        doReturn(IllegalArgumentException.class).when(genericsUtil).getActualTypeParamters(iaeExceptionHandler);
-
         ehc = new ExceptionHandlerCollection(Arrays.asList(runtimeExceptionHandler, checkedExceptionHandler, iaeExceptionHandler, iseExceptionHandler), genericsUtil);
     }
 
     @Test
     public void itShouldExtractExceptionHandlersTypeParameterWhenCreated() {
-
-
         verify(genericsUtil).getActualTypeParamters(runtimeExceptionHandler);
         verify(genericsUtil).getActualTypeParamters(checkedExceptionHandler);
         verify(genericsUtil).getActualTypeParamters(iaeExceptionHandler);
         verify(genericsUtil).getActualTypeParamters(iseExceptionHandler);
-
     }
 
 
