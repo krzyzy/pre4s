@@ -8,16 +8,12 @@ import org.krzyzak.pre4s.handlers.CheckedExceptionHandler;
 import org.krzyzak.pre4s.handlers.IAEExceptionHandler;
 import org.krzyzak.pre4s.handlers.ISEExceptionHandler;
 import org.krzyzak.pre4s.handlers.RuntimeExceptionHandler;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,13 +23,10 @@ import static org.mockito.Mockito.verify;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ExceptionHandlerCollectionTest {
+public class ExceptionHandlerRepositoryTest {
 
 
-    @Spy
-    GenericsUtil genericsUtil = new GenericsUtil();
-
-    ExceptionHandlerCollection ehc;
+    ExceptionHandlerRepository ehc;
 
     RuntimeExceptionHandler runtimeExceptionHandler = new RuntimeExceptionHandler();
     CheckedExceptionHandler checkedExceptionHandler = new CheckedExceptionHandler();
@@ -42,17 +35,8 @@ public class ExceptionHandlerCollectionTest {
 
     @Before
     public void before() {
-        ehc = new ExceptionHandlerCollection(Arrays.asList(runtimeExceptionHandler, checkedExceptionHandler, iaeExceptionHandler, iseExceptionHandler), genericsUtil);
+        ehc = new ExceptionHandlerRepository(Arrays.asList(runtimeExceptionHandler, checkedExceptionHandler, iaeExceptionHandler, iseExceptionHandler));
     }
-
-    @Test
-    public void itShouldExtractExceptionHandlersTypeParameterWhenCreated() {
-        verify(genericsUtil).getActualTypeParamters(runtimeExceptionHandler);
-        verify(genericsUtil).getActualTypeParamters(checkedExceptionHandler);
-        verify(genericsUtil).getActualTypeParamters(iaeExceptionHandler);
-        verify(genericsUtil).getActualTypeParamters(iseExceptionHandler);
-    }
-
 
     @Test
     public void itShouldReturnHandlerWhenExactMatch() {
@@ -71,7 +55,7 @@ public class ExceptionHandlerCollectionTest {
 
     @Test
     public void itShouldReturnAbsentWhenNoMatchingExceptionHandler() {
-        ehc = new ExceptionHandlerCollection(Collections.<RestExceptionHandler<?>>emptyList(), genericsUtil);
+        ehc = new ExceptionHandlerRepository(Collections.<RestExceptionHandler<?>>emptyList());
 
         Optional<RestExceptionHandler<Exception>> e = ehc.getMatchingExceptionHandler(Exception.class);
 

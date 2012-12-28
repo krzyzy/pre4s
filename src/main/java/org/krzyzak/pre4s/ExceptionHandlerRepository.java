@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import org.krzyzak.pre4s.distance.ExceptionClassDistance;
+import org.krzyzak.pre4s.tools.TypeHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,15 +17,16 @@ import java.util.Map;
  * Time: 00:25
  * To change this template use File | Settings | File Templates.
  */
-public class ExceptionHandlerCollection {
+public class ExceptionHandlerRepository {
 
     private final Map<Class<?extends Throwable>, ? extends RestExceptionHandler<?>> handlersMap;
 
-    public ExceptionHandlerCollection(List<? extends RestExceptionHandler<?>> restExceptionHandlers, final GenericsUtil genericsUtil) {
+    public ExceptionHandlerRepository(List<? extends RestExceptionHandler<?>> restExceptionHandlers) {
         handlersMap =   new HashMap<Class<? extends Throwable>, RestExceptionHandler<?>>(Maps.uniqueIndex(restExceptionHandlers, new Function<RestExceptionHandler<?>, Class<? extends Throwable>>() {
             @Override
             public Class<? extends Throwable> apply(RestExceptionHandler<?> input) {
-                return genericsUtil.getActualTypeParamters(input);
+                Class<? extends RestExceptionHandler> aClass = input.getClass();
+                return (Class<? extends Throwable>) TypeHelper.extractType(aClass);
             }
         }));
     }

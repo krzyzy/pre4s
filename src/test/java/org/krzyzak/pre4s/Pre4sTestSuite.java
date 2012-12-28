@@ -13,6 +13,6 @@ import org.krzyzak.pre4s.tools.TypeHelperTest;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ExceptionClassDistanceTest.class, TypeHelperTest.class, ExceptionHandlerCollectionTest.class, Pre4SControllerIntegerationTest.class})
+@Suite.SuiteClasses({ExceptionClassDistanceTest.class, TypeHelperTest.class, ExceptionHandlerRepositoryTest.class, Pre4SControllerIntegerationTest.class})
 public class Pre4sTestSuite {
 }

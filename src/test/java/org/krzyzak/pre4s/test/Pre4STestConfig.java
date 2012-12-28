@@ -1,11 +1,10 @@
 package org.krzyzak.pre4s.test;
 
-import org.krzyzak.pre4s.Pre4SHandlerExceptionResolver;
+import org.krzyzak.pre4s.spring.Pre4SHandlerExceptionResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Created with IntelliJ IDEA.

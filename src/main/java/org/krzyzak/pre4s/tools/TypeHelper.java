@@ -20,7 +20,7 @@ public class TypeHelper {
 
     private static final int VALIDATOR_TYPE_INDEX = 0;
 
-    public static Type extractType(Class<? extends RestExceptionHandler<?>> validator) {
+    public static Type extractType(Class<? extends RestExceptionHandler> validator) {
         Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
         Type constraintValidatorType = resolveTypes(resolvedTypes, validator);
 
