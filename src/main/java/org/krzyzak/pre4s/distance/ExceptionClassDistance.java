@@ -20,6 +20,23 @@ public class ExceptionClassDistance implements Comparable<ExceptionClassDistance
         this.numericDistance = numericDistance;
     }
 
+    public static ExceptionClassDistance fromClasses(Class<?> superClass, Class<?> subClass) {
+        if (superClass.equals(subClass)) {
+            return SAME;
+        } else if (superClass.isAssignableFrom(subClass)) {
+            Class<?> iteratorClass = subClass;
+            int distance = 0;
+            while (!superClass.equals(iteratorClass)) {
+                iteratorClass = iteratorClass.getSuperclass();
+                distance++;
+            }
+            return forNumericDistance(distance);
+        }  else if (subClass.isAssignableFrom(superClass)) {
+
+        }
+        return NOT_RELATED;
+    }
+
     @Override
     public int compareTo(ExceptionClassDistance o) {
         if (o == NOT_RELATED) {

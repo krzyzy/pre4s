@@ -1,6 +1,5 @@
 package org.krzyzak.pre4s.tools;
 
-import org.hibernate.validator.internal.util.Contracts;
 import org.krzyzak.pre4s.RestExceptionHandler;
 
 import java.lang.reflect.*;
@@ -92,8 +91,6 @@ public class TypeHelper {
     }
 
     public static Type getArrayType(Type componentType) {
-        Contracts.assertNotNull(componentType, "componentType");
-
         if (componentType instanceof Class<?>) {
             return Array.newInstance((Class<?>) componentType, 0).getClass();
         }

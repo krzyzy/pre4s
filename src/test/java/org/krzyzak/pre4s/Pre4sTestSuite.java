@@ -2,7 +2,6 @@ package org.krzyzak.pre4s;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.krzyzak.pre4s.distance.ExceptionClassDistanceCalculatorTest;
 import org.krzyzak.pre4s.distance.ExceptionClassDistanceTest;
 import org.krzyzak.pre4s.tools.TypeHelperTest;
 
@@ -14,6 +13,6 @@ import org.krzyzak.pre4s.tools.TypeHelperTest;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ExceptionClassDistanceTest.class, ExceptionClassDistanceCalculatorTest.class, TypeHelperTest.class, ExceptionHandlerCollectionTest.class, Pre4SControllerIntegerationTest.class})
+@Suite.SuiteClasses({ExceptionClassDistanceTest.class, TypeHelperTest.class, ExceptionHandlerCollectionTest.class, Pre4SControllerIntegerationTest.class})
 public class Pre4sTestSuite {
 }

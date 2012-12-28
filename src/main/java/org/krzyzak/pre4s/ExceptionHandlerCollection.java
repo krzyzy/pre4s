@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import org.krzyzak.pre4s.distance.ExceptionClassDistance;
-import org.krzyzak.pre4s.distance.ExceptionClassDistanceCalculator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +20,6 @@ public class ExceptionHandlerCollection {
 
     private final Map<Class<?extends Throwable>, ? extends RestExceptionHandler<?>> handlersMap;
 
-    private ExceptionClassDistanceCalculator distanceCalculator = new ExceptionClassDistanceCalculator();
-
     public ExceptionHandlerCollection(List<? extends RestExceptionHandler<?>> restExceptionHandlers, final GenericsUtil genericsUtil) {
         handlersMap =   new HashMap<Class<? extends Throwable>, RestExceptionHandler<?>>(Maps.uniqueIndex(restExceptionHandlers, new Function<RestExceptionHandler<?>, Class<? extends Throwable>>() {
             @Override
@@ -37,7 +34,7 @@ public class ExceptionHandlerCollection {
         RestExceptionHandler<T> result = null;
 
         for (Map.Entry<Class<? extends Throwable>, ? extends RestExceptionHandler<?>> entry : handlersMap .entrySet()) {
-            ExceptionClassDistance distance = distanceCalculator.calculate(entry.getKey(), exceptionClass);
+            ExceptionClassDistance distance = ExceptionClassDistance.fromClasses(entry.getKey(), exceptionClass);
             if (distance.compareTo(closestDistance)<0) {
                 closestDistance = distance;
                 result = (RestExceptionHandler<T>) entry.getValue();

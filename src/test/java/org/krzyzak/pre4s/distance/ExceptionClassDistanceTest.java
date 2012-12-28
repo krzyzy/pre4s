@@ -1,5 +1,6 @@
 package org.krzyzak.pre4s.distance;
 
+import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -18,6 +19,8 @@ import java.util.Random;
 public class ExceptionClassDistanceTest {
 
     Random random = new Random();
+
+
 
     @Test
     public void itShouldReturnLt0WhenCompareSameWithInfinity() throws Exception {
@@ -43,4 +46,32 @@ public class ExceptionClassDistanceTest {
     public void itShouldReturnLt0WhenComparePositiveDistanceWithInfinity() {
         Pre4SAssertions.assertThat(ExceptionClassDistance.forNumericDistance(Long.MAX_VALUE)).isLessThan(ExceptionClassDistance.NOT_RELATED);
     }
+
+    @Test
+    public void itShouldReturnInfinityWhenExceptionsAreNotRelated() throws Exception {
+        ExceptionClassDistance classDistance = ExceptionClassDistance.fromClasses(IllegalStateException.class, NullPointerException.class);
+
+        Assertions.assertThat(classDistance).isEqualTo(ExceptionClassDistance.NOT_RELATED);
+    }
+
+    @Test
+    public void itShouldReturnSameWhenExceptionClassesEquals() {
+        Assertions.assertThat(ExceptionClassDistance.fromClasses(IllegalStateException.class, IllegalStateException.class)).isEqualTo(ExceptionClassDistance.SAME);
+    }
+
+    @Test
+    public void itShouldReturnBiggerThenSameWhenFirstExceptionIsSuperClassOfSecondOne() {
+        Pre4SAssertions.assertThat(ExceptionClassDistance.fromClasses(Exception.class, RuntimeException.class)).isGreaterThanOrEqualTo(ExceptionClassDistance.SAME);
+    }
+
+    @Test
+    public void itShouldReturn0WhenCompareDistanceBetweenExcetpionAndISEAndNPE() {
+        Pre4SAssertions.assertThat(ExceptionClassDistance.fromClasses(Exception.class, IllegalStateException.class)).isEqualByComparingTo(ExceptionClassDistance.fromClasses(Exception.class, NullPointerException.class));
+    }
+
+    @Test
+    public void itShouldBeLtZeroWHenCOmpareE_REWith_E_ISE() {
+        Pre4SAssertions.assertThat(ExceptionClassDistance.fromClasses(Exception.class, RuntimeException.class)).isLessThan(ExceptionClassDistance.fromClasses(Exception.class, IllegalStateException.class));
+    }
+
 }
