@@ -1,4 +1,4 @@
-package org.krzyzak.pre4s.handlers;
+package org.krzyzak.pre4s.test.handlers;
 
 /**
  * Created with IntelliJ IDEA.

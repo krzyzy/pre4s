@@ -17,11 +17,11 @@ import java.util.Map;
  * Time: 00:25
  * To change this template use File | Settings | File Templates.
  */
-public class ExceptionHandlerResolver {
+public class ExceptionHandlerRepository {
 
     private final Map<Class<?extends Throwable>, ? extends ExceptionHandler<?>> handlersMap;
 
-    public ExceptionHandlerResolver(List<? extends ExceptionHandler<?>> restExceptionHandlers) {
+    public ExceptionHandlerRepository(List<? extends ExceptionHandler<?>> restExceptionHandlers) {
         handlersMap =   new HashMap<Class<? extends Throwable>, ExceptionHandler<?>>(Maps.uniqueIndex(restExceptionHandlers, new Function<ExceptionHandler<?>, Class<? extends Throwable>>() {
             @Override
             public Class<? extends Throwable> apply(ExceptionHandler<?> input) {

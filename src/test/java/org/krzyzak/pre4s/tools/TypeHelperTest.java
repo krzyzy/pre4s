@@ -1,12 +1,11 @@
 package org.krzyzak.pre4s.tools;
 
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.krzyzak.pre4s.handlers.IAEExceptionHandler;
-import org.krzyzak.pre4s.handlers.ISEExceptionHandler;
-import org.krzyzak.pre4s.handlers.SubRestExceptionHandler;
+import org.krzyzak.pre4s.test.handlers.IAEExceptionHandler;
+import org.krzyzak.pre4s.test.handlers.ISEExceptionHandler;
+import org.krzyzak.pre4s.test.handlers.SubRestExceptionHandler;
 
 import static org.fest.assertions.Assertions.assertThat;
 

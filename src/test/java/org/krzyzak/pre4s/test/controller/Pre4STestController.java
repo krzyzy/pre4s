@@ -1,4 +1,4 @@
-package org.krzyzak.pre4s.controller;
+package org.krzyzak.pre4s.test.controller;
 
 import org.krzyzak.pre4s.test.ApplicationException;
 import org.krzyzak.pre4s.test.FooEntity;

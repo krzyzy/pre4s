@@ -1,7 +1,8 @@
-package org.krzyzak.pre4s.handlers;
+package org.krzyzak.pre4s.test.handlers;
 
 import org.krzyzak.pre4s.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 /**
 * Created with IntelliJ IDEA.
@@ -10,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 * Time: 22:08
 * To change this template use File | Settings | File Templates.
 */
-public class RuntimeExceptionHandler implements ExceptionHandler<RuntimeException> {
+@Component
+public class ISEExceptionHandler implements ExceptionHandler<IllegalStateException> {
 
     @Override
-    public ResponseEntity<?> handle(RuntimeException e) {
+    public ResponseEntity<?> handle(IllegalStateException e) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

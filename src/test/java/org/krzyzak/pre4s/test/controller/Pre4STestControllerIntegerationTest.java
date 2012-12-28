@@ -1,4 +1,4 @@
-package org.krzyzak.pre4s.controller;
+package org.krzyzak.pre4s.test.controller;
 
 import junit.framework.Assert;
 import org.junit.Before;

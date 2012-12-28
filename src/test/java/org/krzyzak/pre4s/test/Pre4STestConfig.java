@@ -1,10 +1,13 @@
 package org.krzyzak.pre4s.test;
 
-import org.krzyzak.pre4s.spring.Pre4SHandlerExceptionResolver;
+import org.krzyzak.pre4s.ExceptionHandler;
+import org.krzyzak.pre4s.ExceptionHandlerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,8 +22,8 @@ import org.springframework.context.annotation.ImportResource;
 public class Pre4STestConfig {
 
     @Bean
-    public Pre4SHandlerExceptionResolver get(){
-        return new Pre4SHandlerExceptionResolver();
+    public ExceptionHandlerRepository get(List<ExceptionHandler<?>> handlers){
+        return new ExceptionHandlerRepository(handlers);
     }
 
 }
