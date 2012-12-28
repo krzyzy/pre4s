@@ -1,6 +1,6 @@
 package org.krzyzak.pre4s.handlers;
 
-import org.krzyzak.pre4s.RestExceptionHandler;
+import org.krzyzak.pre4s.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
  * Time: 22:19
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractExceptionHandler<T extends Throwable> implements RestExceptionHandler<T> {
+public abstract class AbstractExceptionHandler<T extends Throwable> implements ExceptionHandler<T> {
     @Override
     public ResponseEntity<?> handle(T e) {
         return null;

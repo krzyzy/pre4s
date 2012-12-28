@@ -1,6 +1,6 @@
 package org.krzyzak.pre4s.handlers;
 
-import org.krzyzak.pre4s.RestExceptionHandler;
+import org.krzyzak.pre4s.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 * Time: 22:07
 * To change this template use File | Settings | File Templates.
 */
-public class CheckedExceptionHandler implements RestExceptionHandler<Exception> {
+public class CheckedExceptionHandler implements ExceptionHandler<Exception> {
 
     @Override
     public ResponseEntity<?> handle(Exception e) {

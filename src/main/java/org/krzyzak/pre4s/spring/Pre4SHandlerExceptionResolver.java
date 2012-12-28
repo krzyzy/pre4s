@@ -1,6 +1,6 @@
 package org.krzyzak.pre4s.spring;
 
-import org.krzyzak.pre4s.RestExceptionHandler;
+import org.krzyzak.pre4s.ExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +21,7 @@ import java.util.List;
 public class Pre4SHandlerExceptionResolver extends AbstractHandlerExceptionResolver {
 
     @Autowired
-    private List<RestExceptionHandler<?>> exceptionHandlers;
+    private List<ExceptionHandler<?>> exceptionHandlers;
 
     @Override
     public ModelAndView doResolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {

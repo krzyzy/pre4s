@@ -23,10 +23,10 @@ import static org.fest.assertions.Assertions.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ExceptionHandlerRepositoryTest {
+public class ExceptionHandlerResolverTest {
 
 
-    ExceptionHandlerRepository ehc;
+    ExceptionHandlerResolver ehc;
 
     RuntimeExceptionHandler runtimeExceptionHandler = new RuntimeExceptionHandler();
     CheckedExceptionHandler checkedExceptionHandler = new CheckedExceptionHandler();
@@ -35,7 +35,7 @@ public class ExceptionHandlerRepositoryTest {
 
     @Before
     public void before() {
-        ehc = new ExceptionHandlerRepository(Arrays.asList(runtimeExceptionHandler, checkedExceptionHandler, iaeExceptionHandler, iseExceptionHandler));
+        ehc = new ExceptionHandlerResolver(Arrays.asList(runtimeExceptionHandler, checkedExceptionHandler, iaeExceptionHandler, iseExceptionHandler));
     }
 
     @Test
@@ -55,9 +55,9 @@ public class ExceptionHandlerRepositoryTest {
 
     @Test
     public void itShouldReturnAbsentWhenNoMatchingExceptionHandler() {
-        ehc = new ExceptionHandlerRepository(Collections.<RestExceptionHandler<?>>emptyList());
+        ehc = new ExceptionHandlerResolver(Collections.<ExceptionHandler<?>>emptyList());
 
-        Optional<RestExceptionHandler<Exception>> e = ehc.getMatchingExceptionHandler(Exception.class);
+        Optional<ExceptionHandler<Exception>> e = ehc.getMatchingExceptionHandler(Exception.class);
 
         assertThat(e.isPresent()).isFalse();
     }

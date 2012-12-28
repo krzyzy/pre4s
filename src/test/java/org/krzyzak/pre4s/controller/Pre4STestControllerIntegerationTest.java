@@ -1,10 +1,9 @@
-package org.krzyzak.pre4s;
+package org.krzyzak.pre4s.controller;
 
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.krzyzak.pre4s.controller.Pre4STestController;
 import org.krzyzak.pre4s.spring.Pre4SHandlerExceptionResolver;
 import org.krzyzak.pre4s.test.Pre4STestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ import java.util.Arrays;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {Pre4STestConfig.class}, loader = AnnotationConfigContextLoader.class)
-public class Pre4SControllerIntegerationTest {
+public class Pre4STestControllerIntegerationTest {
 
     @Autowired
     private Pre4STestController pre4STestController;
