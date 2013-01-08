@@ -4,14 +4,21 @@ import com.google.common.base.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.krzyzak.pre4s.ExceptionHandler;
 import org.krzyzak.pre4s.ExceptionHandlerRepository;
-import org.krzyzak.pre4s.test.handlers.IAEExceptionHandler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.DelegatingServletOutputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +31,7 @@ import static org.mockito.Mockito.verify;
 public class Pre4SHandlerExceptionResolverTest {
 
     @Mock
-    private IAEExceptionHandler iaeExceptionHandler;
+    private ExceptionHandler iaeExceptionHandler;
 
     @Mock
     ExceptionHandlerRepository exceptionHandlerRepository;
@@ -39,11 +46,31 @@ public class Pre4SHandlerExceptionResolverTest {
     }
 
     @Test
-    public void itShouldAskRepositoryForHandlerWhenHandlingException(){
+    public void itShouldAskRepositoryForHandlerWhenHandlingException() throws IOException {
         IllegalArgumentException argumentException = new IllegalArgumentException();
-        resolver.doResolveException(null, null, null, argumentException);
+        HttpServletResponse response = mockServletResponse();
+        resolver.doResolveException(mock(HttpServletRequest.class), response, null, argumentException);
 
         verify(exceptionHandlerRepository).getMatchingExceptionHandler(same(IllegalArgumentException.class));
+    }
+
+    @Test
+    public void itShouldSetAttributesOfResponseBasedOnResultOfExceptionHandler() throws IOException {
+        IllegalArgumentException argumentException = new IllegalArgumentException();
+        ResponseEntity responseEntity = new ResponseEntity("body", HttpStatus.OK);
+
+        doReturn(responseEntity).when(iaeExceptionHandler).handle(argumentException);
+        HttpServletResponse response = mockServletResponse();
+
+        resolver.doResolveException(mock(HttpServletRequest.class), response, null, argumentException);
+
+        verify(response).setStatus(HttpStatus.OK.value());
+    }
+
+    private HttpServletResponse mockServletResponse() throws IOException {
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        doReturn(new DelegatingServletOutputStream(new ByteArrayOutputStream())).when(response).getOutputStream();
+        return response;
     }
 
 }
