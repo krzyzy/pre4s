@@ -4,8 +4,10 @@ import org.krzyzak.pre4s.test.ApplicationException;
 import org.krzyzak.pre4s.test.FooEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,13 +26,8 @@ public class Pre4STestController {
     @ResponseBody
     public FooEntity saveDebugOutput(@RequestParam(value="fail") Boolean throwException) throws ApplicationException {
         if (throwException)
-            throw new ApplicationException("requested fail");
+            throw new IllegalArgumentException("requested fail");
         return new FooEntity("test");
-    }
-
-    @ExceptionHandler({ApplicationException.class})
-    public ModelAndView handle(ApplicationException ae) {
-        return null;
     }
 
 }

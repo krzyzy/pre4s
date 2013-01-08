@@ -1,6 +1,7 @@
 package org.krzyzak.pre4s.test.handlers;
 
 import org.krzyzak.pre4s.ExceptionHandler;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,6 @@ public class IAEExceptionHandler implements ExceptionHandler<IllegalArgumentExce
 
     @Override
     public ResponseEntity<?> handle(IllegalArgumentException e) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.OK);
     }
 }
