@@ -1,12 +1,17 @@
 package org.krzyzak.pre4s.test.controller;
 
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.krzyzak.pre4s.ExceptionHandlerRepository;
 import org.krzyzak.pre4s.spring.Pre4SHandlerExceptionResolver;
 import org.krzyzak.pre4s.test.Pre4STestConfig;
+import org.krzyzak.pre4s.test.handlers.IAEExceptionHandler;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +25,9 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Arrays;
 
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+
 /**
  * Created with IntelliJ IDEA.
  * User: tomasz
@@ -31,16 +39,22 @@ import java.util.Arrays;
 @ContextConfiguration(classes = {Pre4STestConfig.class}, loader = AnnotationConfigContextLoader.class)
 public class Pre4STestControllerIntegerationTest {
 
+    public static final String RANDOM_HEADER = "randomHeader";
+
     @Autowired
     private Pre4STestController pre4STestController;
 
-    @Autowired
-    private Pre4SHandlerExceptionResolver pre4SHandlerExceptionResolver;
+    private Pre4SHandlerExceptionResolver pre4SHandlerExceptionResolver ;
 
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
+
+    private IAEExceptionHandler mockExceptionHandler;
 
     @Before
     public void setUp() throws Exception {
+        mockExceptionHandler = Mockito.mock(IAEExceptionHandler.class);
+        pre4SHandlerExceptionResolver = new Pre4SHandlerExceptionResolver(new ExceptionHandlerRepository(Arrays.asList(mockExceptionHandler)));
+
         StandaloneMockMvcBuilder standaloneMockMvcBuilder = MockMvcBuilders.standaloneSetup(pre4STestController);
         standaloneMockMvcBuilder.setHandlerExceptionResolvers(Arrays.<HandlerExceptionResolver>asList(pre4SHandlerExceptionResolver));
         mockMvc = standaloneMockMvcBuilder.build();
@@ -48,9 +62,38 @@ public class Pre4STestControllerIntegerationTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void itShouldSetResponseCodeOnResponseUsingResponseCodeFromExceptinHandlerResult() throws Exception {
+        ResponseEntity<String> responseEntity = createResponseEntity();
+        Mockito.doReturn(responseEntity).when(mockExceptionHandler).handle(any(IllegalArgumentException.class));
+
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test?fail=true").header("Accept", "application/json")).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        Assert.assertEquals(200, response.getStatus());
+        assertEquals(responseEntity.getStatusCode().value(), response.getStatus());
+    }
+
+    @Test
+    public void itShouldSetResponseHeadersUsingHeadersFromExceptionHandlerResult() throws Exception {
+        ResponseEntity<String> responseEntity = createResponseEntity();
+        Mockito.doReturn(responseEntity).when(mockExceptionHandler).handle(any(IllegalArgumentException.class));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test?fail=true").header("Accept", "application/json")).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(responseEntity.getHeaders().get(RANDOM_HEADER), response.getHeaders(RANDOM_HEADER));
+    }
+
+    @Test
+    public void itShouldSetBodyUsingBodyFromExceptionHandlerResult() throws Exception {
+        ResponseEntity<String> responseEntity = createResponseEntity();
+        Mockito.doReturn(responseEntity).when(mockExceptionHandler).handle(any(IllegalArgumentException.class));
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/pre4s/test?fail=true").header("Accept", "application/json")).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(result.getResponse().getContentAsString(), "\""+responseEntity.getBody()+"\"");
+    }
+
+    private ResponseEntity<String> createResponseEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(RANDOM_HEADER, "randomValue");
+        return new ResponseEntity<String>("randombody", headers, HttpStatus.OK);
     }
 }
