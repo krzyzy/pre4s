@@ -1,11 +1,10 @@
 package org.krzyzak.pre4s.spring;
 
 import com.google.common.base.Optional;
-import com.google.common.net.HttpHeaders;
+import com.google.common.collect.ImmutableMap;
 import org.krzyzak.pre4s.ExceptionHandler;
 import org.krzyzak.pre4s.ExceptionHandlerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,10 +13,6 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,27 +40,19 @@ public class Pre4SHandlerExceptionResolver extends AbstractHandlerExceptionResol
             if (responseEntity == null)
                 return null;
 
-            httpServletResponse.setStatus(responseEntity.getStatusCode().value());
-            for (String headerName : responseEntity.getHeaders().keySet()) {
-                List<String> strings = responseEntity.getHeaders().get(headerName);
-                if (strings.size() > 0)
-                    httpServletResponse.setHeader(headerName, strings.get(0));
-            }
-
-            MappingJacksonJsonView mappingJacksonJsonView = new MappingJacksonJsonView();
-            mappingJacksonJsonView.setExtractValueFromSingleKeyModel(true);
-            Map<String, Object> model = new HashMap<String, Object>();
-            model.put("model", responseEntity.getBody());
-            return new ModelAndView(mappingJacksonJsonView, model);
+            return new ModelAndView(createView(responseEntity), createModel(responseEntity));
         }
         return null;
     }
 
-    private MediaType extractMediaType(HttpServletRequest httpServletRequest,MediaType defaultMimeType) {
-        Enumeration headers = httpServletRequest.getHeaders(HttpHeaders.ACCEPT);
-        if (headers!=null && headers.hasMoreElements()){
-            defaultMimeType = MediaType.parseMediaType((String) headers.nextElement());
-        }
-        return defaultMimeType;
+    private ImmutableMap<String, Object> createModel(ResponseEntity<?> responseEntity) {
+        return ImmutableMap.<String, Object>builder().put("model", responseEntity.getBody()).build();
     }
+
+    private MappingJacksonJsonView createView(ResponseEntity<?> responseEntity) {
+        MappingJacksonJsonView mappingJacksonJsonView = new ExceptionHandlerResultView(responseEntity);
+        mappingJacksonJsonView.setExtractValueFromSingleKeyModel(true);
+        return mappingJacksonJsonView;
+    }
+
 }

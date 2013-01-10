@@ -1,6 +1,7 @@
 package org.krzyzak.pre4s.spring;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,12 +12,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.DelegatingServletOutputStream;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.*;
 
@@ -39,7 +43,7 @@ public class Pre4SHandlerExceptionResolverTest {
     private Pre4SHandlerExceptionResolver resolver;
 
     @Before
-    public void before(){
+    public void before() {
         doReturn(Optional.of(iaeExceptionHandler)).when(exceptionHandlerRepository).getMatchingExceptionHandler(IllegalArgumentException.class);
 
         resolver = new Pre4SHandlerExceptionResolver(exceptionHandlerRepository);
@@ -62,9 +66,10 @@ public class Pre4SHandlerExceptionResolverTest {
         doReturn(responseEntity).when(iaeExceptionHandler).handle(argumentException);
         HttpServletResponse response = mockServletResponse();
 
-        resolver.doResolveException(mock(HttpServletRequest.class), response, null, argumentException);
+        ModelAndView modelAndView = resolver.doResolveException(mock(HttpServletRequest.class), response, null, argumentException);
 
-        verify(response).setStatus(HttpStatus.OK.value());
+        assertTrue(modelAndView.getView() instanceof ExceptionHandlerResultView);
+        assertEquals(modelAndView.getModel(), ImmutableMap.<String, Object>builder().put("model", responseEntity.getBody()).build());
     }
 
     private HttpServletResponse mockServletResponse() throws IOException {
