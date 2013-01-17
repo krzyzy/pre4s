@@ -1,4 +1,4 @@
-package org.krzyzak.pre4s.distance;
+package org.krzyzak.pre4s.tools;
 
 /**
  * Created with IntelliJ IDEA.

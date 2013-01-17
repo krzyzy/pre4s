@@ -1,7 +1,7 @@
 package org.krzyzak.pre4s;
 
 import com.google.common.base.Optional;
-import org.krzyzak.pre4s.distance.ExceptionClassDistance;
+import org.krzyzak.pre4s.tools.ExceptionClassDistance;
 import org.krzyzak.pre4s.tools.TypeHelper;
 
 import java.lang.reflect.Type;

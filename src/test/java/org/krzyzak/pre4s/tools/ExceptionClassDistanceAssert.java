@@ -1,7 +1,6 @@
 package org.krzyzak.pre4s.tools;
 
 import org.fest.assertions.ComparableAssert;
-import org.krzyzak.pre4s.distance.ExceptionClassDistance;
 
 /**
  * Created with IntelliJ IDEA.

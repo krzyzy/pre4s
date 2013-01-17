@@ -1,7 +1,5 @@
 package org.krzyzak.pre4s.tools;
 
-import org.krzyzak.pre4s.distance.ExceptionClassDistance;
-
 /**
  * Created with IntelliJ IDEA.
  * User: tk

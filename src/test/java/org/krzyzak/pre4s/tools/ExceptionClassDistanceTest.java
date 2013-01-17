@@ -1,10 +1,9 @@
-package org.krzyzak.pre4s.distance;
+package org.krzyzak.pre4s.tools;
 
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.krzyzak.pre4s.tools.Pre4SAssertions;
 
 import java.util.Random;
 
